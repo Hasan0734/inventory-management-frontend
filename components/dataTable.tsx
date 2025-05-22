@@ -19,18 +19,22 @@ import {
   ColumnFiltersState,
   VisibilityState,
 } from "@tanstack/react-table";
-
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  tableCellClass?: string;
+  tableBodyClass?: string;
   onRowClick?: (rowData: TData) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  tableCellClass,
   onRowClick,
+  tableBodyClass,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -77,16 +81,23 @@ export function DataTable<TData, TValue>({
           </TableRow>
         ))}
       </TableHeader>
-      <TableBody>
+      <TableBody
+        className={cn("**:data-[slot=table-cell]:first:w-8", tableBodyClass)}
+      >
         {table.getRowModel().rows.length ? (
           table.getRowModel().rows.map((row) => (
             <TableRow
               key={row.id}
               onClick={() => onRowClick?.(row.original)}
-              className={onRowClick ? "cursor-pointer hover:bg-muted/50" : ""}
+              className={
+                onRowClick ? "cursor-pointer hover:bg-muted/50 text-nowrap" : ""
+              }
             >
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} className="px-4 py-3 text-center">
+                <TableCell
+                  key={cell.id}
+                  className={cn("px-4 py-3 text-center", tableCellClass)}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}

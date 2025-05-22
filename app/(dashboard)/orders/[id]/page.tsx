@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,12 +36,55 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/dataTable";
 
 interface OrderDetailPageProps {
   params: {
     id: string;
   };
 }
+
+const columns: ColumnDef<any>[] = [
+  {
+    accessorKey: "name",
+    header: () => <div className="text-start">Product</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-2">
+          <div className="h-10 w-10 rounded-md bg-muted"></div>
+          <div>
+            <span>{row.getValue("name")}</span>
+            <span>{row.getValue("id")}</span>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "price",
+    header: () => <div>Price</div>,
+    cell: ({ row }) => {
+      return <div className="text-center">{row.getValue("price")}</div>;
+    },
+  },
+
+  {
+    accessorKey: "quantity",
+    header: () => <div>Quantity</div>,
+    cell: ({ row }) => {
+      return <div className="text-center">{row.getValue("quantity")}</div>;
+    },
+  },
+  {
+    accessorKey: "total",
+    header: () => <div className="text-end">Total</div>,
+     cell: ({ row }) => {
+      return <div className="text-end -mr-3">{row.getValue("total")}</div>;
+    },
+  },
+];
 
 export default function OrderDetailPage({ params }: OrderDetailPageProps) {
   const orderId = params.id;
@@ -105,7 +149,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
   };
 
   return (
-    <div className="grid gap-6">
+    <>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" asChild>
@@ -114,7 +158,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
               <span className="sr-only">Back</span>
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold tracking-tight">
+          <h1 className="text-2xl font-bold tracking-tight text-nowrap">
             Order {orderDetails.id}
           </h1>
           <Badge variant={getStatusVariant(orderDetails.status)}>
@@ -148,38 +192,12 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
               <CardDescription>Items included in this order.</CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Product</TableHead>
-                    <TableHead className="text-right">Price</TableHead>
-                    <TableHead className="text-right">Quantity</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {orderDetails.items.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-md bg-muted"></div>
-                          <div>
-                            <div className="font-medium">{item.name}</div>
-                            <div className="text-sm text-muted-foreground">
-                              {item.id}
-                            </div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">{item.price}</TableCell>
-                      <TableCell className="text-right">
-                        {item.quantity}
-                      </TableCell>
-                      <TableCell className="text-right">{item.total}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <DataTable
+              
+                columns={columns}
+                data={orderDetails.items}
+              />
+
               <div className="mt-6 space-y-4">
                 <div className="flex justify-between text-sm">
                   <div className="text-muted-foreground">Subtotal</div>
@@ -338,6 +356,6 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
           </Card>
         </div>
       </div>
-    </div>
+    </>
   );
 }
