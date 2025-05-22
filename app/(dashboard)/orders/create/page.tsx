@@ -216,55 +216,84 @@ export default function CreateOrderPage() {
 
       <div className="grid gap-6 md:grid-cols-[1fr_350px]">
         <div className="grid gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Customer Information</CardTitle>
-              <CardDescription>
-                Enter customer details for this order.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="grid grid-cols-2 gap-4">
+          <div className="grid lg:grid-cols-[2fr_1fr] gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Customer Information</CardTitle>
+                <CardDescription>
+                  Enter customer details for this order.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <label
+                      htmlFor="customerName"
+                      className="text-sm font-medium"
+                    >
+                      Customer Name *
+                    </label>
+                    <Input
+                      id="customerName"
+                      name="customerName"
+                      placeholder="Enter customer name"
+                      required
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <label
+                      htmlFor="customerEmail"
+                      className="text-sm font-medium"
+                    >
+                      Email *
+                    </label>
+                    <Input
+                      id="customerEmail"
+                      name="customerEmail"
+                      type="email"
+                      placeholder="customer@example.com"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="w-full grid gap-2">
+                    <label
+                      htmlFor="customerPhone"
+                      className="text-sm font-medium"
+                    >
+                      Phone Number
+                    </label>
+                    <Input
+                      id="customerPhone"
+                      name="customerPhone"
+                      placeholder="(555) 123-4567"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Saller Info</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <div className="grid gap-2">
                   <label htmlFor="customerName" className="text-sm font-medium">
-                    Customer Name *
+                    Saller Name *
                   </label>
                   <Input
-                    id="customerName"
-                    name="customerName"
-                    placeholder="Enter customer name"
+                    id="sallerName"
+                    name="sallerName"
+                    placeholder="Enter saller name"
                     required
                   />
                 </div>
-                <div className="grid gap-2">
-                  <label
-                    htmlFor="customerEmail"
-                    className="text-sm font-medium"
-                  >
-                    Email *
-                  </label>
-                  <Input
-                    id="customerEmail"
-                    name="customerEmail"
-                    type="email"
-                    placeholder="customer@example.com"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <label htmlFor="customerPhone" className="text-sm font-medium">
-                  Phone Number
-                </label>
-                <Input
-                  id="customerPhone"
-                  name="customerPhone"
-                  placeholder="(555) 123-4567"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
+              </CardContent>
+            </Card>
+          </div>
+          
           <Card>
             <CardHeader>
               <CardTitle>Shipping & Billing</CardTitle>
@@ -312,6 +341,7 @@ export default function CreateOrderPage() {
                   rows={3}
                 />
               </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <label

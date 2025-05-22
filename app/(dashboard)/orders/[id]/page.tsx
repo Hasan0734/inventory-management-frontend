@@ -9,25 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  ArrowLeft,
-  BarChart3,
-  Box,
-  ChevronDown,
-  CircleDollarSign,
-  Package,
-  Printer,
-  ShoppingCart,
-  Truck,
-} from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { ArrowLeft, Printer } from "lucide-react";
+
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
@@ -51,8 +34,8 @@ const columns: ColumnDef<any>[] = [
     header: () => <div className="text-start">Product</div>,
     cell: ({ row }) => {
       return (
-        <div className="flex items-center gap-2">
-          <div className="h-10 w-10 rounded-md bg-muted"></div>
+        <div className="flex items-start md:items-center -ml-3 gap-2">
+          <div className="h-10 w-10 md:block hidden rounded-md bg-muted"></div>
           <div>
             <span>{row.getValue("name")}</span>
             <span>{row.getValue("id")}</span>
@@ -80,7 +63,7 @@ const columns: ColumnDef<any>[] = [
   {
     accessorKey: "total",
     header: () => <div className="text-end">Total</div>,
-     cell: ({ row }) => {
+    cell: ({ row }) => {
       return <div className="text-end -mr-3">{row.getValue("total")}</div>;
     },
   },
@@ -184,19 +167,15 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
           </Button>
         </div>
       </div>
-      <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
-        <div className="grid gap-6">
+      <div className="grid md:grid-cols-[2fr_1fr] gap-6 relative overflow-auto">
+        <div className="relative flex flex-col gap-4 overflow-auto">
           <Card>
             <CardHeader>
               <CardTitle>Order Items</CardTitle>
               <CardDescription>Items included in this order.</CardDescription>
             </CardHeader>
             <CardContent>
-              <DataTable
-              
-                columns={columns}
-                data={orderDetails.items}
-              />
+              <DataTable columns={columns} data={orderDetails.items} />
 
               <div className="mt-6 space-y-4">
                 <div className="flex justify-between text-sm">
@@ -219,6 +198,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
               </div>
             </CardContent>
           </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Shipping Information</CardTitle>
