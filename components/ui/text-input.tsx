@@ -15,6 +15,7 @@ interface PropsType {
   name: string;
   placeholder: string;
   type?: string;
+  customeMessage?: string[] | undefined;
 }
 
 const TextInput = ({
@@ -23,6 +24,7 @@ const TextInput = ({
   name,
   placeholder,
   isMessage,
+  customeMessage,
   type = "text",
   ...rest
 }: PropsType) => {
@@ -43,7 +45,11 @@ const TextInput = ({
               />
             </FormControl>
 
-            {isMessage && <FormMessage />}
+            {isMessage && customeMessage ? (
+              <FormMessage>{customeMessage}</FormMessage>
+            ) : (
+              <FormMessage />
+            )}
           </FormItem>
         )}
       />

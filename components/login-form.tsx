@@ -13,75 +13,57 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form } from "./ui/form";
+import { Form, FormMessage } from "./ui/form";
 import TextInput from "./ui/text-input";
-import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useState } from "react";
-import { toast } from "sonner";
 
-const FormSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-});
+import { useActionState } from "react";
+import { singin } from "@/app/login/actions";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const router = useRouter();
-  const [message, setMessage] = useState("");
+  const [state, fromAction, pending] = useActionState(singin, undefined);
+  const form = useForm();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  //  function onSubmit(data: z.infer<typeof FormSchema>) {
+  //   const res =  axios.post("/api/auth/login", data).catch((err) => {
+  //     toast.error(err.response.data.message);
+  //   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const res = await axios.post("/api/auth/login", data).catch((err) => {
-      toast.error(err.response.data.message);
-    });
+  // }
 
-    if (res) {
-      // router.push("/0);
-    }
-  }
-
+  console.log(state?.errors);
   return (
-    <div className={cn("flex flex-col gap-6 ", className)} {...props}>
-      <Card className="">
-        <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter login to your account and access <br /> dashboard
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <TextInput
-                name="email"
-                label="Email"
-                form={form}
-                placeholder={"Enter your email"}
-              />
-              <TextInput
-                name="password"
-                label="Password"
-                form={form}
-                placeholder={"Enter password"}
-                type={"password"}
-              />
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+    <Form {...form}>
+      <form action={fromAction} className="space-y-4">
+        <TextInput
+          name="email"
+          label="Email"
+          form={form}
+          placeholder={"Enter your email"}
+          isMessage={true}
+          customeMessage={state?.errors.email}
+        />
+        <TextInput
+          name="password"
+          label="Password"
+          form={form}
+          placeholder={"Enter password"}
+          type={"password"}
+          isMessage={true}
+          customeMessage={state?.errors.password}
+        />
+        <Button type="submit" className="w-full mb-2">
+          Login
+        </Button>
+        {state?.errors?.status === "fail" && (
+          <FormMessage className="text-center">
+            {state?.errors?.message}
+          </FormMessage>
+        )}
+      </form>
+    </Form>
   );
 }
