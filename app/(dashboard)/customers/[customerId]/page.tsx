@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
+    ArrowLeft,
   Building,
   Download,
   Filter,
@@ -13,95 +14,87 @@ import {
   Truck,
 } from "lucide-react";
 import { DataTable } from "@/components/dataTable";
-import { CustomerColumn } from "@/components/columns/CustomerColumn";
 import { Input } from "@/components/ui/input";
+import { OrderColumns } from "@/components/columns/OrderColumns";
 
 export default function CustomersPage() {
-  const data = [
+  const orders = [
     {
-      name: "Alice Johnson",
-      phone: "+1 (555) 123-4567",
-      email: "alice.johnson@example.com",
-      address: "123 Main St, Springfield, IL 62701",
-      imageURL: "https://randomuser.me/api/portraits/women/1.jpg",
+      id: "ORD-001",
+      customer: "John Smith",
+      date: "2025-05-15",
+      status: "Delivered",
+      items: 3,
+      total: "$245.99",
     },
     {
-      name: "Bob Smith",
-      phone: "+1 (555) 987-6543",
-      email: "bob.smith@example.com",
-      address: "456 Elm St, Austin, TX 73301",
-      imageURL: "https://randomuser.me/api/portraits/men/2.jpg",
+      id: "ORD-002",
+      customer: "Sarah Johnson",
+      date: "2025-05-16",
+      status: "Processing",
+      items: 2,
+      total: "$89.99",
     },
     {
-      name: "Carol White",
-      phone: "+1 (555) 555-7890",
-      email: "carol.white@example.com",
-      address: "789 Oak Ave, Portland, OR 97201",
-      imageURL: "https://randomuser.me/api/portraits/women/3.jpg",
+      id: "ORD-003",
+      customer: "Michael Brown",
+      date: "2025-05-16",
+      status: "Shipped",
+      items: 5,
+      total: "$178.45",
     },
     {
-      name: "David Lee",
-      phone: "+1 (555) 321-4567",
-      email: "david.lee@example.com",
-      address: "321 Pine Rd, Miami, FL 33101",
-      imageURL: "https://randomuser.me/api/portraits/men/4.jpg",
+      id: "ORD-004",
+      customer: "Emily Davis",
+      date: "2025-05-17",
+      status: "Pending",
+      items: 1,
+      total: "$34.99",
     },
     {
-      name: "Eva Brown",
-      phone: "+1 (555) 654-3210",
-      email: "eva.brown@example.com",
-      address: "654 Cedar Ln, Seattle, WA 98101",
-      imageURL: "https://randomuser.me/api/portraits/women/5.jpg",
+      id: "ORD-005",
+      customer: "Robert Wilson",
+      date: "2025-05-17",
+      status: "Delivered",
+      items: 4,
+      total: "$156.78",
     },
     {
-      name: "Frank Miller",
-      phone: "+1 (555) 111-2222",
-      email: "frank.miller@example.com",
-      address: "101 Maple Dr, Denver, CO 80201",
-      imageURL: "https://randomuser.me/api/portraits/men/6.jpg",
+      id: "ORD-006",
+      customer: "Jennifer Taylor",
+      date: "2025-05-17",
+      status: "Processing",
+      items: 2,
+      total: "$67.50",
     },
     {
-      name: "Grace Kim",
-      phone: "+1 (555) 333-4444",
-      email: "grace.kim@example.com",
-      address: "202 Birch Blvd, San Francisco, CA 94101",
-      imageURL: "https://randomuser.me/api/portraits/women/7.jpg",
+      id: "ORD-007",
+      customer: "David Martinez",
+      date: "2025-05-18",
+      status: "Cancelled",
+      items: 3,
+      total: "$124.99",
     },
     {
-      name: "Henry Adams",
-      phone: "+1 (555) 777-8888",
-      email: "henry.adams@example.com",
-      address: "303 Cherry St, Boston, MA 02101",
-      imageURL: "https://randomuser.me/api/portraits/men/8.jpg",
-    },
-    {
-      name: "Isabella Martinez",
-      phone: "+1 (555) 666-9999",
-      email: "isabella.martinez@example.com",
-      address: "404 Walnut Rd, Phoenix, AZ 85001",
-      imageURL: "https://randomuser.me/api/portraits/women/9.jpg",
-    },
-    {
-      name: "Jack Wilson",
-      phone: "+1 (555) 444-5555",
-      email: "jack.wilson@example.com",
-      address: "505 Ash Ct, Chicago, IL 60601",
-      imageURL: "https://randomuser.me/api/portraits/men/10.jpg",
+      id: "ORD-008",
+      customer: "Lisa Anderson",
+      date: "2025-05-18",
+      status: "Shipped",
+      items: 6,
+      total: "$289.95",
     },
   ];
 
   return (
     <>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Customers</h1>
-        <div className="flex items-center gap-2">
-          <Button size="sm" className="h-8 gap-1" asChild>
-            <Link href="/suppliers/add">
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span>Add Customer</span>
-            </Link>
-          </Button>
-        </div>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <Button variant="outline" size="icon" asChild>
+          <Link href="/customers">
+            <ArrowLeft className="h-4 w-4" />
+            <span className="sr-only">Back</span>
+          </Link>
+        </Button>
+        <h1 className="text-2xl font-bold tracking-tight">Customer Details</h1>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
@@ -150,7 +143,10 @@ export default function CustomersPage() {
         <CardHeader className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <CardTitle>All Customers</CardTitle>
           <div className="flex items-center flex-wrap md:flex-nowrap gap-2">
-            <Input className="w-auto" placeholder="Search by name or phone or email" />
+            <Input
+              className="w-auto"
+              placeholder="Search by name or phone or email"
+            />
             <Button variant="outline" size="sm" className="h-8 gap-1">
               <Filter className="h-3.5 w-3.5" />
               <span>Filter</span>
@@ -162,7 +158,7 @@ export default function CustomersPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <DataTable data={data} columns={CustomerColumn} />
+          <DataTable data={orders} columns={OrderColumns} />
         </CardContent>
       </Card>
     </>

@@ -16,20 +16,21 @@ import { z } from "zod";
 import { Form } from "./ui/form";
 import TextInput from "./ui/text-input";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   email: z.string(),
   password: z.string(),
 });
 
-
-
-
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
+  const [message, setMessage] = useState("");
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -39,9 +40,14 @@ export function LoginForm({
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    router.push("/");
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const res = await axios.post("/api/auth/login", data).catch((err) => {
+      toast.error(err.response.data.message);
+    });
+
+    if (res) {
+      // router.push("/0);
+    }
   }
 
   return (

@@ -40,10 +40,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ChartArea } from "@/components/ChartArea";
 
 export default function ReportsPage() {
   return (
-    <div className="grid gap-6">
+    <>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Reports</h1>
         <div className="flex items-center gap-2">
@@ -107,6 +108,7 @@ export default function ReportsPage() {
           </CardContent>
         </Card>
       </div>
+
       <Tabs defaultValue="sales">
         <TabsList>
           <TabsTrigger value="sales">Sales Reports</TabsTrigger>
@@ -303,6 +305,6 @@ export default function ReportsPage() {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+    </>
   );
 }

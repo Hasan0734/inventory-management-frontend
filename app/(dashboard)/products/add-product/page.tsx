@@ -17,10 +17,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ArrowLeft, Box, ChevronDown, Package, Save } from "lucide-react";
+import ProductImageUpload from "@/components/ProductImageUpload";
 
 export default function AddProductPage() {
   return (
-    <div className="grid gap-6">
+    <>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" asChild>
@@ -36,7 +37,7 @@ export default function AddProductPage() {
           <span>Save Product</span>
         </Button>
       </div>
-      <div className="grid gap-6 md:grid-cols-[1fr_250px]">
+      <div className="grid gap-6 md:grid-cols-[1fr_350px] items-start">
         <div className="grid gap-6">
           <Card>
             <CardHeader>
@@ -66,6 +67,7 @@ export default function AddProductPage() {
                     Description
                   </label>
                   <Textarea
+                    className=""
                     id="description"
                     placeholder="Enter product description"
                     rows={4}
@@ -224,6 +226,7 @@ export default function AddProductPage() {
                   Shipping Notes
                 </label>
                 <Textarea
+                  className="resize-none"
                   id="shipping-notes"
                   placeholder="Enter any special shipping instructions"
                   rows={3}
@@ -233,7 +236,8 @@ export default function AddProductPage() {
           </Card>
         </div>
         <div className="grid gap-6">
-          <Card>
+          <ProductImageUpload />
+          {/* <Card>
             <CardHeader>
               <CardTitle>Product Image</CardTitle>
             </CardHeader>
@@ -248,7 +252,7 @@ export default function AddProductPage() {
                 Upload Image
               </Button>
             </CardContent>
-          </Card>
+          </Card> */}
           <Card>
             <CardHeader>
               <CardTitle>Product Status</CardTitle>
@@ -287,6 +291,6 @@ export default function AddProductPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </>
   );
 }

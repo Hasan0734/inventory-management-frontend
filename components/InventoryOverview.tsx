@@ -10,6 +10,7 @@ import {
 
 import { InventroyColumns } from "./columns/InventroyColumns";
 import { DataTable } from "./dataTable";
+import { ProductColumns } from "./columns/ProductColumns";
 
 const data = [
   {
@@ -66,7 +67,7 @@ const InventoryOverview = () => {
         </CardHeader>
         <CardContent className="w-full overflow-auto">
           <DataTable
-            columns={InventroyColumns}
+            columns={ProductColumns}
             data={data}
             onRowClick={(row) => (window.location.href = `/products/${row.id}`)}
           />

@@ -15,7 +15,10 @@ import Link from "next/link";
 export const InventroyColumns: ColumnDef<any>[] = [
   {
     accessorKey: "id",
-    header: "SKU",
+    header: () => <div className="text-start">SKU</div>,
+    cell: ({ row }) => {
+      return <div className="text-start">{row.getValue("id")}</div>;
+    },
   },
   {
     accessorKey: "name",

@@ -21,30 +21,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  ArrowLeft,
-  BarChart3,
-  Box,
-  ChevronDown,
-  CircleDollarSign,
-  MinusCircle,
-  Package,
-  PlusCircle,
-  Save,
-  Search,
-  ShoppingCart,
-  Truck,
-} from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import SelectOrderProduct from "@/components/SelectOrderProduct";
 
 export default function CreateOrderPage() {
   // Sample products data
@@ -215,85 +194,69 @@ export default function CreateOrderPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-[1fr_350px]">
-        <div className="grid gap-6">
-          <div className="grid lg:grid-cols-[2fr_1fr] gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Customer Information</CardTitle>
-                <CardDescription>
-                  Enter customer details for this order.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="grid gap-2">
-                    <label
-                      htmlFor="customerName"
-                      className="text-sm font-medium"
-                    >
-                      Customer Name *
-                    </label>
-                    <Input
-                      id="customerName"
-                      name="customerName"
-                      placeholder="Enter customer name"
-                      required
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <label
-                      htmlFor="customerEmail"
-                      className="text-sm font-medium"
-                    >
-                      Email *
-                    </label>
-                    <Input
-                      id="customerEmail"
-                      name="customerEmail"
-                      type="email"
-                      placeholder="customer@example.com"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="w-full grid gap-2">
-                    <label
-                      htmlFor="customerPhone"
-                      className="text-sm font-medium"
-                    >
-                      Phone Number
-                    </label>
-                    <Input
-                      id="customerPhone"
-                      name="customerPhone"
-                      placeholder="(555) 123-4567"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Saller Info</CardTitle>
-              </CardHeader>
-              <CardContent>
+        <div className="grid gap-6 self-start">
+          <SelectOrderProduct
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            orderItems={orderItems}
+            filteredProducts={filteredProducts}
+            addProductToOrder={addProductToOrder}
+            updateProductQuantity={updateProductQuantity}
+            removeProductFromOrder={removeProductFromOrder}
+          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Customer Information</CardTitle>
+              <CardDescription>
+                Enter customer details for this order.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <label htmlFor="customerName" className="text-sm font-medium">
-                    Saller Name *
+                    Customer Name *
                   </label>
                   <Input
-                    id="sallerName"
-                    name="sallerName"
-                    placeholder="Enter saller name"
+                    id="customerName"
+                    name="customerName"
+                    placeholder="Enter customer name"
                     required
                   />
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-          
+                <div className="grid gap-2">
+                  <label
+                    htmlFor="customerEmail"
+                    className="text-sm font-medium"
+                  >
+                    Email *
+                  </label>
+                  <Input
+                    id="customerEmail"
+                    name="customerEmail"
+                    type="email"
+                    placeholder="customer@example.com"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="w-full grid gap-2">
+                  <label
+                    htmlFor="customerPhone"
+                    className="text-sm font-medium"
+                  >
+                    Phone Number
+                  </label>
+                  <Input
+                    id="customerPhone"
+                    name="customerPhone"
+                    placeholder="(555) 123-4567"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           <Card>
             <CardHeader>
               <CardTitle>Shipping & Billing</CardTitle>
@@ -302,47 +265,51 @@ export default function CreateOrderPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-6">
-              <div className="grid gap-2">
-                <label
-                  htmlFor="shippingAddress"
-                  className="text-sm font-medium"
-                >
-                  Shipping Address *
-                </label>
-                <Textarea
-                  id="shippingAddress"
-                  name="shippingAddress"
-                  placeholder="Enter complete shipping address"
-                  rows={3}
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center justify-between">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid gap-2">
                   <label
-                    htmlFor="billingAddress"
+                    htmlFor="shippingAddress"
                     className="text-sm font-medium"
                   >
-                    Billing Address
+                    Shipping Address *
                   </label>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 text-xs"
-                  >
-                    Same as shipping
-                  </Button>
+                  <Textarea
+                    id="shippingAddress"
+                    name="shippingAddress"
+                    placeholder="Enter complete shipping address"
+                    rows={3}
+                    required
+                    className="resize-none"
+                  />
                 </div>
-                <Textarea
-                  id="billingAddress"
-                  name="billingAddress"
-                  placeholder="Enter complete billing address"
-                  rows={3}
-                />
+                <div className="grid gap-2">
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="billingAddress"
+                      className="text-sm font-medium"
+                    >
+                      Billing Address
+                    </label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-5 text-xs"
+                    >
+                      Same as shipping
+                    </Button>
+                  </div>
+                  <Textarea
+                    id="billingAddress"
+                    name="billingAddress"
+                    placeholder="Enter complete billing address"
+                    rows={3}
+                    className="resize-none"
+                  />
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid  md:grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <label
                     htmlFor="paymentMethod"
@@ -390,191 +357,9 @@ export default function CreateOrderPage() {
               </div>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Order Items</CardTitle>
-              <CardDescription>Add products to this order.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="grid gap-4">
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Search products..."
-                      className="pl-8"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                {searchQuery && (
-                  <Card className="overflow-hidden">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>SKU</TableHead>
-                          <TableHead>Product</TableHead>
-                          <TableHead className="text-right">Price</TableHead>
-                          <TableHead className="text-right">Stock</TableHead>
-                          <TableHead></TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {filteredProducts.map((product) => (
-                          <TableRow key={product.id}>
-                            <TableCell className="font-medium">
-                              {product.id}
-                            </TableCell>
-                            <TableCell>{product.name}</TableCell>
-                            <TableCell className="text-right">
-                              ${product.price.toFixed(2)}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {product.stock > 0 ? (
-                                product.stock
-                              ) : (
-                                <Badge variant="destructive">
-                                  Out of Stock
-                                </Badge>
-                              )}
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                type="button"
-                                size="sm"
-                                disabled={product.stock <= 0}
-                                onClick={() => addProductToOrder(product)}
-                              >
-                                Add
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                        {filteredProducts.length === 0 && (
-                          <TableRow>
-                            <TableCell
-                              colSpan={5}
-                              className="text-center py-4 text-muted-foreground"
-                            >
-                              No products found
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </Card>
-                )}
-
-                {orderItems.length > 0 ? (
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Product</TableHead>
-                        <TableHead className="text-right">Price</TableHead>
-                        <TableHead className="text-center">Quantity</TableHead>
-                        <TableHead className="text-right">Total</TableHead>
-                        <TableHead></TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {orderItems.map((item) => (
-                        <TableRow key={item.productId}>
-                          <TableCell>
-                            <div>
-                              <div className="font-medium">{item.name}</div>
-                              <div className="text-sm text-muted-foreground">
-                                {item.productId}
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            ${item.price.toFixed(2)}
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center justify-center gap-2">
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                className="h-8 w-8"
-                                onClick={() =>
-                                  updateProductQuantity(
-                                    item.productId,
-                                    item.quantity - 1
-                                  )
-                                }
-                              >
-                                <MinusCircle className="h-4 w-4" />
-                              </Button>
-                              <Input
-                                type="number"
-                                min="1"
-                                value={item.quantity}
-                                onChange={(e) =>
-                                  updateProductQuantity(
-                                    item.productId,
-                                    Number.parseInt(e.target.value) || 0
-                                  )
-                                }
-                                className="h-8 w-16 text-center"
-                              />
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                className="h-8 w-8"
-                                onClick={() =>
-                                  updateProductQuantity(
-                                    item.productId,
-                                    item.quantity + 1
-                                  )
-                                }
-                              >
-                                <PlusCircle className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-right font-medium">
-                            ${(item.price * item.quantity).toFixed(2)}
-                          </TableCell>
-                          <TableCell>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              onClick={() =>
-                                removeProductFromOrder(item.productId)
-                              }
-                            >
-                              <MinusCircle className="h-4 w-4" />
-                              <span className="sr-only">Remove</span>
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                ) : (
-                  <div className="rounded-md border border-dashed p-8 text-center">
-                    <ShoppingCart className="mx-auto h-8 w-8 text-muted-foreground" />
-                    <h3 className="mt-2 text-lg font-medium">
-                      No items in order
-                    </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Search for products above to add them to this order.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid gap-6 self-start">
           <Card>
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
@@ -601,7 +386,6 @@ export default function CreateOrderPage() {
               </div>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle>Order Notes</CardTitle>
@@ -616,12 +400,11 @@ export default function CreateOrderPage() {
               </div>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle>Order Status</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="grid gap-4">
               <div className="grid gap-2">
                 <Select name="orderStatus" defaultValue="pending">
                   <SelectTrigger id="orderStatus">
@@ -635,6 +418,17 @@ export default function CreateOrderPage() {
                     <SelectItem value="cancelled">Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="grid gap-2">
+                <label htmlFor="customerName" className="text-sm font-medium">
+                  Saller Name *
+                </label>
+                <Input
+                  id="sallerName"
+                  name="sallerName"
+                  placeholder="Enter saller name"
+                  required
+                />
               </div>
             </CardContent>
           </Card>

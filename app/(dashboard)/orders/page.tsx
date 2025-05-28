@@ -118,22 +118,6 @@ const orders = [
 ];
 
 export default function OrdersPage() {
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "Delivered":
-        return "default";
-      case "Processing":
-        return "secondary";
-      case "Shipped":
-        return "outline";
-      case "Pending":
-        return "destructive";
-      case "Cancelled":
-        return "destructive";
-      default:
-        return "default";
-    }
-  };
 
   return (
     <>

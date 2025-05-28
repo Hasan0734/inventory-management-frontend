@@ -11,39 +11,56 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { getStatusVariant } from "@/lib/utils";
 
-export const OrderColumns: ColumnDef<any>[] = [
+export const ProductColumns: ColumnDef<any>[] = [
   {
     accessorKey: "id",
-    header: () => <div className="text-start">Order Id</div>,
+    header: () => <div className="text-start">SKU</div>,
     cell: ({ row }) => {
       return <div className="text-start">{row.getValue("id")}</div>;
     },
   },
   {
-    accessorKey: "customer",
-    header: "Customer",
+    accessorKey: "name",
+    header: () => <div className="text-start">Product Name</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-2">
+          <div className="h-10 w-10 rounded-md bg-muted"></div>
+          <span>{row.getValue("name")}</span>
+        </div>
+      );
+    },
   },
   {
-    accessorKey: "date",
-    header: "Date",
+    accessorKey: "category",
+    header: "Category",
   },
   {
-    accessorKey: "items",
-    header: "Items",
+    accessorKey: "stock",
+    header: "Stock",
   },
   {
-    accessorKey: "total",
-    header: "Total",
+    accessorKey: "price",
+    header: "Price",
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const order = row.original;
+      const product = row.original;
       return (
-        <Badge variant={getStatusVariant(order.status)}>{order.status}</Badge>
+        <Badge
+          variant={
+            product.status === "In Stock"
+              ? "default"
+              : product.status === "Low Stock"
+              ? "outline"
+              : "destructive"
+          }
+        >
+          {product.status}
+        </Badge>
       );
     },
   },
@@ -68,9 +85,9 @@ export const OrderColumns: ColumnDef<any>[] = [
             <DropdownMenuItem asChild>
               <Link href={`/products/${product.id}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Update Status</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Cancel Order</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

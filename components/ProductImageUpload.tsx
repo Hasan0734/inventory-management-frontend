@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Image, Package, X } from "lucide-react";
 import { Button } from "./ui/button";
@@ -18,16 +18,14 @@ import { Label } from "./ui/label";
 const ProductImageUpload = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+
   const [images, setImages] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!api) {
       return;
     }
-
-    setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
     api.on("select", () => {
@@ -37,6 +35,7 @@ const ProductImageUpload = () => {
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
+
     if (!fileList) return;
 
     const files = Array.from(fileList); // ✅ Convert FileList to array
@@ -72,11 +71,11 @@ const ProductImageUpload = () => {
           {images?.length > 0 && (
             <>
               <Carousel setApi={setApi} className="w-full lg:max-w-xs">
-                <CarouselPrevious className="-left-0 z-20 border-none bg-transparent dark:bg-transparent" />
+                <CarouselPrevious className="-left-0 z-20" />
                 <CarouselContent>
                   {images.map((img, index) => (
                     <CarouselItem key={index}>
-                      <div className="relative aspect-square overflow-hidden rounded-md bg-background flex items-center justify-center">
+                      <div className="relative  aspect-square overflow-hidden rounded-md bg-background flex items-center justify-center">
                         <div className="absolute right-1 top-1">
                           <Button
                             className="rounded-full size-6 cursor-pointer"
@@ -93,7 +92,7 @@ const ProductImageUpload = () => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselNext className="-right-0 z-20 border-none bg-transparent dark:bg-transparent" />
+                <CarouselNext className="-right-0 z-20 " />
               </Carousel>
             </>
           )}
@@ -102,7 +101,7 @@ const ProductImageUpload = () => {
             <>
               <label
                 htmlFor="images"
-                className="aspect-square cursor-pointer overflow-hidden rounded-md bg-background flex items-center justify-center"
+                className="aspect-square border border-input cursor-pointer overflow-hidden rounded-md bg-background flex items-center justify-center"
               >
                 <div className="text-muted-foreground">
                   <Image className="h-12 w-12 mx-auto" />
@@ -114,7 +113,7 @@ const ProductImageUpload = () => {
 
           <div className="relative w-full  gap-2">
             <div className="text-center text-xs text-muted-foreground">
-              Image {current} of {images.length}
+              Image {images.length === 0 ? 0 : current} of {images.length}
             </div>
 
             <Input

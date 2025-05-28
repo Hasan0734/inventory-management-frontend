@@ -42,6 +42,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DataTable } from "@/components/dataTable";
+import { PurchaseColumns } from "@/components/columns/PurchaseColumn";
 
 export default function PurchansesPage() {
   const orders = [
@@ -129,18 +131,10 @@ export default function PurchansesPage() {
   };
 
   return (
-    <div className="grid gap-6">
+    <>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Purchases</h1>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="h-8 gap-1">
-            <Filter className="h-3.5 w-3.5" />
-            <span>Filter</span>
-          </Button>
-          <Button variant="outline" size="sm" className="h-8 gap-1">
-            <Download className="h-3.5 w-3.5" />
-            <span>Export</span>
-          </Button>
           <Button size="sm" className="h-8 gap-1" asChild>
             <Link href="/orders/create">
               <Calendar className="h-3.5 w-3.5" />
@@ -198,9 +192,18 @@ export default function PurchansesPage() {
         </Card>
       </div>
       <Card>
-        <CardHeader className="flex flex-row items-center">
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Recent Orders</CardTitle>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="h-8 gap-1">
+              <Filter className="h-3.5 w-3.5" />
+              <span>Filter</span>
+            </Button>
+            <Button variant="outline" size="sm" className="h-8 gap-1">
+              <Download className="h-3.5 w-3.5" />
+              <span>Export</span>
+            </Button>
+
             <Select defaultValue="all">
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Filter by status" />
@@ -217,78 +220,15 @@ export default function PurchansesPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Order ID</TableHead>
-                <TableHead>
-                  <div className="flex items-center gap-1">
-                    Customer
-                    <ArrowUpDown className="h-3 w-3" />
-                  </div>
-                </TableHead>
-                <TableHead>
-                  <div className="flex items-center gap-1">
-                    Date
-                    <ArrowUpDown className="h-3 w-3" />
-                  </div>
-                </TableHead>
-                <TableHead className="text-center">Items</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-                <TableHead className="text-right">Status</TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orders.map((order) => (
-                <TableRow
-                  key={order.id}
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => (window.location.href = `/orders/${order.id}`)}
-                >
-                  <TableCell className="font-medium">{order.id}</TableCell>
-                  <TableCell>{order.customer}</TableCell>
-                  <TableCell>
-                    {new Date(order.date).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="text-center">{order.items}</TableCell>
-                  <TableCell className="text-right">{order.total}</TableCell>
-                  <TableCell className="text-right">
-                    <Badge variant={getStatusVariant(order.status)}>
-                      {order.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Actions</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent
-                        align="end"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <DropdownMenuItem asChild>
-                          <Link href={`/orders/${order.id}`}>View Details</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>Update Status</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Cancel Order</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <DataTable
+            columns={PurchaseColumns}
+            data={orders}
+            onRowClick={(row) =>
+              (window.location.href = `/purchases/${row.id}`)
+            }
+          />
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }

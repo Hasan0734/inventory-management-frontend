@@ -11,39 +11,44 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { getStatusVariant } from "@/lib/utils";
 
-export const OrderColumns: ColumnDef<any>[] = [
+export const SupplierColumn: ColumnDef<any>[] = [
   {
-    accessorKey: "id",
-    header: () => <div className="text-start">Order Id</div>,
+    accessorKey: "name",
+    header: () => <div className="text-start">Name</div>,
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("id")}</div>;
+      return (
+        <div className="flex justify-start items-center gap-2">
+          <div className="h-10 w-10 rounded-md bg-muted"></div>
+          <span>{row.getValue("name")}</span>
+        </div>
+      );
     },
   },
   {
-    accessorKey: "customer",
-    header: "Customer",
+    accessorKey: "contact",
+    header: "Phone",
   },
   {
-    accessorKey: "date",
-    header: "Date",
+    accessorKey: "email",
+    header: "Email",
   },
   {
-    accessorKey: "items",
-    header: "Items",
-  },
-  {
-    accessorKey: "total",
-    header: "Total",
+    accessorKey: "address",
+    header: "Address",
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const order = row.original;
+      const supplier = row.original;
       return (
-        <Badge variant={getStatusVariant(order.status)}>{order.status}</Badge>
+        <Badge
+          variant={supplier.status === "active" ? "default" : "destructive"}
+          className="capitalize"
+        >
+          {supplier.status}
+        </Badge>
       );
     },
   },
@@ -51,7 +56,7 @@ export const OrderColumns: ColumnDef<any>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const product = row.original;
+      const customer = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -66,11 +71,11 @@ export const OrderColumns: ColumnDef<any>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
             <DropdownMenuItem asChild>
-              <Link href={`/products/${product.id}`}>View Details</Link>
+              <Link href={`/suppliers/${customer.name}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Update Status</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Cancel Order</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

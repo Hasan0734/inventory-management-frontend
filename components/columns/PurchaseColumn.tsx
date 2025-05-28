@@ -13,7 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { getStatusVariant } from "@/lib/utils";
 
-export const OrderColumns: ColumnDef<any>[] = [
+export const PurchaseColumns: ColumnDef<any>[] = [
   {
     accessorKey: "id",
     header: () => <div className="text-start">Order Id</div>,
@@ -23,7 +23,7 @@ export const OrderColumns: ColumnDef<any>[] = [
   },
   {
     accessorKey: "customer",
-    header: "Customer",
+    header: "Supplier",
   },
   {
     accessorKey: "date",
@@ -66,7 +66,7 @@ export const OrderColumns: ColumnDef<any>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
             <DropdownMenuItem asChild>
-              <Link href={`/products/${product.id}`}>View Details</Link>
+              <Link href={`/purchases/${product.id}`}>View Details</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>Update Status</DropdownMenuItem>
             <DropdownMenuSeparator />

@@ -46,7 +46,7 @@ const AppHeader = () => {
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="sm" className="gap-1">
+              <Button variant="default" size="sm" className="gap-1">
                 <UserIcon />
                 <span>Admin</span>
               </Button>

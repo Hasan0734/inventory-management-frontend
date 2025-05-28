@@ -11,40 +11,29 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { getStatusVariant } from "@/lib/utils";
 
-export const OrderColumns: ColumnDef<any>[] = [
+export const CategoryColumn: ColumnDef<any>[] = [
   {
-    accessorKey: "id",
-    header: () => <div className="text-start">Order Id</div>,
+    accessorKey: "name",
+    header: () => <div className="text-start">Category Name</div>,
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("id")}</div>;
+      return (
+        <div className="flex justify-start items-center gap-2">
+          <div className="h-10 w-10 rounded-md bg-muted"></div>
+          <span>{row.getValue("name")}</span>
+        </div>
+      );
     },
   },
   {
-    accessorKey: "customer",
-    header: "Customer",
+    accessorKey: "totalProduct",
+    header: "Total Products",
   },
   {
-    accessorKey: "date",
-    header: "Date",
-  },
-  {
-    accessorKey: "items",
-    header: "Items",
-  },
-  {
-    accessorKey: "total",
-    header: "Total",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "totalSale",
+    header: "Total Sale",
     cell: ({ row }) => {
-      const order = row.original;
-      return (
-        <Badge variant={getStatusVariant(order.status)}>{order.status}</Badge>
-      );
+      return <div>${row.getValue("totalSale")}</div>;
     },
   },
   {
@@ -68,9 +57,9 @@ export const OrderColumns: ColumnDef<any>[] = [
             <DropdownMenuItem asChild>
               <Link href={`/products/${product.id}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Update Status</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Cancel Order</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -25,7 +25,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const productId = params?.id;
 
   return (
-    <div className="grid gap-6">
+    <>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" asChild>
@@ -325,6 +325,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           </Tabs>
         </div>
       </div>
-    </div>
+    </>
   );
 }
